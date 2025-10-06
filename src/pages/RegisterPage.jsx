@@ -1,6 +1,7 @@
 import { useState } from "react";
 import Joi from "joi";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const schema = Joi.object({
   username: Joi.string().max(30).min(3).required(),
@@ -13,11 +14,15 @@ export default function RegisterPage() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
+  const [isLoading, setIsLoading] = useState(false);
+
   const [error, setError] = useState({
     username: "",
     password: "",
     confirmPassword: "",
   });
+
+  const navigate = useNavigate();
 
   const handleSubmitForm = (event) => {
     event.preventDefault();
@@ -29,6 +34,7 @@ export default function RegisterPage() {
       },
       { abortEarly: false }
     );
+    // console.log(value);
     if (error) {
       // console.dir(error); // console.dir = directory
       const nextError = { username: "", password: "", confirmPassword: "" };
@@ -40,15 +46,29 @@ export default function RegisterPage() {
     // console.log("value", value);
     // console.log("error", error);
     setError({ username: "", password: "", confirmPassword: "" });
+
+    setIsLoading(true);
+
     axios
-      .post("http://localhost:5555/auth/register", {
-        username,
-        password,
-        confirmPassword,
+      // .post("http://localhost:5555/auth/register", {
+      //   username,
+      //   password,
+      //   confirmPassword,
+      // })
+      .post("http://localhost:5555/auth/register", value)
+      //  backend route (http://localhost:5555)
+      .then((response) => {
+        // window.alert("successful registration");
+        navigate("/login");
+        // navigate() is frontend route (react-router-dom, http://localhost:5173)
       })
-      .then((response) => window.alert("successful registration"))
-      .catch((err) => console.log(err));
+      .catch((err) => console.log(err))
+      .finally(() => setIsLoading(false));
   };
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <form
