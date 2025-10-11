@@ -3,6 +3,8 @@ import Header from "../components/Header";
 import HomePage from "../pages/HomePage";
 import LoginPage from "../pages/LoginPage";
 import RegisterPage from "../pages/RegisterPage";
+import Authenticated from "../components/Authenticated";
+import RedirectIfAuthenticated from "../components/RedirectIfAuthenticated";
 
 const router = createBrowserRouter([
   {
@@ -19,9 +21,30 @@ const router = createBrowserRouter([
     children: [
       // path can be either absolute or relative
       // relative path, no slash, relative to parent path (recommended)
-      { path: "", element: <HomePage /> },
-      { path: "login", element: <LoginPage /> },
-      { path: "register", element: <RegisterPage /> },
+      {
+        path: "",
+        element: (
+          <Authenticated>
+            <HomePage />
+          </Authenticated>
+        ),
+      },
+      {
+        path: "login",
+        element: (
+          <RedirectIfAuthenticated>
+            <LoginPage />
+          </RedirectIfAuthenticated>
+        ),
+      },
+      {
+        path: "register",
+        element: (
+          <RedirectIfAuthenticated>
+            <RegisterPage />
+          </RedirectIfAuthenticated>
+        ),
+      },
     ],
   },
 ]);

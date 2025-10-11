@@ -57,7 +57,7 @@ export default function RegisterPage() {
       // })
       .post("http://localhost:5555/auth/register", value)
       //  backend route (http://localhost:5555)
-      .then((response) => {
+      .then(() => {
         // window.alert("successful registration");
         navigate("/login");
         // navigate() is frontend route (react-router-dom, http://localhost:5173)

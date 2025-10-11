@@ -1,6 +1,8 @@
 import axios from "axios";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import Swal from "sweetalert2";
+import { AuthContext } from "../contexts/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 axios.defaults.baseURL = "http://localhost:5555";
 
@@ -10,6 +12,10 @@ export default function LoginPage() {
     password: "",
   });
 
+  const ctx = useContext(AuthContext);
+
+  const navigate = useNavigate();
+
   const handleChangeInput = (event) =>
     setInput({ ...input, [event.target.name]: event.target.value });
 
@@ -18,8 +24,10 @@ export default function LoginPage() {
     axios
       .post("/auth/login", input)
       .then((response) => {
-        console.log(response.data.accessToken);
+        // console.log(response.data.accessToken);
         localStorage.setItem("accessToken", response.data.accessToken);
+        ctx.setUser(true);
+        navigate("/");
       })
       .catch((err) => {
         console.log(err);
