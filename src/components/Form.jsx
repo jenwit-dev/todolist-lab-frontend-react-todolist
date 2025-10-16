@@ -17,19 +17,23 @@ export default function Form({ setTodos }) {
           },
         }
       )
-      .then(() => {
+      .then((res) => {
         console.log("successful POST /todo");
         setInput("");
-        return axios.get("http://localhost:5555/todo", {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-          },
-        });
+        // Option 2: update todos state by adding new todo from response of POST /todo
+        setTodos((prev) => [...prev, res.data.todo]);
+
+        // Option 1 : duplicate request to get updated todo list, reducing performance for the server
+        // return axios.get("http://localhost:5555/todo", {
+        //   headers: {
+        //     Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+        //   },
+        // });
       })
-      .then((res) => {
-        console.log("successful GET /todo");
-        setTodos(res.data.todos);
-      })
+      // .then((res) => {
+      //   console.log("successful GET /todo");
+      //   setTodos(res.data.todos);
+      // })
       .catch((err) => console.log(err));
   };
 
