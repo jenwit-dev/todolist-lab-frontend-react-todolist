@@ -11,6 +11,7 @@ export default function Form({ setTodos }) {
       .post(
         "http://localhost:5555/todo",
         { title: input },
+        // request config object with headers
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("accessToken")}`,

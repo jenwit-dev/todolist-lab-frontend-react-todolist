@@ -3,6 +3,11 @@ import Joi from "joi";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
+// define Joi schema for validation (Joi is a popular validation library)
+// use Joi library at fronend to validate user input before sending to backend
+// P Earth used joi to validate user input in project todolist-lab-frontend-react-todolist
+// P Earth also used joi in project cc15-fakebuck-mvc-express to validate user input at backend
+// therefore, joi can be used at both frontend and backend
 const schema = Joi.object({
   username: Joi.string().max(30).min(3).required(),
   password: Joi.string().min(6).alphanum().required(),
@@ -26,7 +31,10 @@ export default function RegisterPage() {
 
   const handleSubmitForm = (event) => {
     event.preventDefault();
+    // value: the validated and possibly transformed data after validation (object value)
+    // error: ValidationError object if validation fails, otherwise undefined (object error)
     const { value, error } = schema.validate(
+      // since the schema to validate is Joi.object({}), we need to pass in an object to validate()
       {
         username,
         password,
@@ -34,19 +42,31 @@ export default function RegisterPage() {
       },
       { abortEarly: false }
     );
-    // console.log(value);
+    console.log(value);
+    // if you do not input any value to the fields, object value will return { username: '', password: '', confirmPassword: '' }
     if (error) {
-      // console.dir(error); // console.dir = directory
+      // console.log(error);
+      // console.log(typeof error); // ValidationError object
+      // console.dir(error);
+      // console.dir(error.message);
+      // console.dir = directory (show full object details) whereas console.log(error) just shows a summary
       const nextError = { username: "", password: "", confirmPassword: "" };
       for (let item of error.details) {
         nextError[item.path[0]] = item.message;
       }
+      // error = the result destructured from schema.validate() which is a single entire object (ValidationError object)
+      // error.details = an array of many smaller error objects
+      // item = each small error object of error.details
       return setError(nextError);
     }
-    // console.log("value", value);
-    // console.log("error", error);
+
+    // if no error, error destructured from schema.validate() will be undefined
+    console.log(typeof error); // undefined
+
+    // if no error, clear all error messages
     setError({ username: "", password: "", confirmPassword: "" });
 
+    // loading spinner starts
     setIsLoading(true);
 
     axios

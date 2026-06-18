@@ -9,6 +9,7 @@ export default function AuthContextProvider({ children }) {
   );
   return (
     <AuthContext.Provider value={{ user, setUser }}>
+      {/* value stores an object {user, setUser} like TodoContextProvider P V */}
       {children}
     </AuthContext.Provider>
   );

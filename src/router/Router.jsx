@@ -8,6 +8,8 @@ import RedirectIfAuthenticated from "../components/RedirectIfAuthenticated";
 
 const router = createBrowserRouter([
   {
+    // "/" is frontend route (react-router-dom, http://localhost:5173)
+    // "/" here is the parent route (root path) for all child routes
     path: "/",
     element: (
       // Layout
@@ -18,6 +20,7 @@ const router = createBrowserRouter([
         </div>
       </div>
     ),
+    // nested routes : adding key children to the parent route
     children: [
       // path can be either absolute or relative
       // relative path, no slash, relative to parent path (recommended)

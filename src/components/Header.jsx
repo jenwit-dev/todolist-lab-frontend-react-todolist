@@ -40,7 +40,7 @@ export default function Header() {
               {/* {null} render nothing */}
               {/* {undefined} render nothing */}
               {/* {NaN} render NaN */}
-              {/* {0} render zero */}
+              {/* {0} still render zero despite zero being a falsy value (exception in JSX) */}
               {/* {""} render nothing */}
               {/* {<div className="text-pink-500 font-bold">Hello</div>} can render react element with or without { } */}
               {/* <div className="text-pink-500 font-bold">He</div> */}

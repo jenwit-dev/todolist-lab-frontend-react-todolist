@@ -3,12 +3,13 @@ import { AuthContext } from "../contexts/AuthContext";
 import { Navigate } from "react-router-dom";
 
 export default function RedirectIfAuthenticated({ children }) {
+  // Both component names (RedirectIfAuthenticaTED) and its logic are the same in both project todolist-lab-mvc (fronTEND) and cc15-fakebuck-mvc (fronTEND)
   const ctx = useContext(AuthContext);
   if (ctx.user) {
     // option 1: show a message
-    return <div className="bg-white">You are already logged in.</div>;
+    // return <div className="bg-white">You are already logged in.</div>;
     // option 2: redirect to home page
-    // return <Navigate to="/" />;
+    return <Navigate to="/" />;
     // if already logged in, redirect to home page
     // return <Navigate to="/" replace={true} />;
     // replace: true, the current entry will be replaced in the history stack
